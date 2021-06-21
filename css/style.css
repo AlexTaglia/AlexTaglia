@@ -15,4 +15,9 @@
 
 .center {
     color: #fff;
+    text-align: center;
+}
+
+h1{
+    padding-bottom: 15px;
 }
