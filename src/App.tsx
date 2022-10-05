@@ -49,7 +49,7 @@ function App() {
         <Routes>
           {/* <Route path="/" element={<App />}> */}
           <Route path="/mycollection" element={<MyCollection />} />
-          <Route path="/mint" element={<Mint />} />
+          {/* <Route path="/mint" element={<Mint />} /> */}
           {/* <Route path="teams" element={<Teams />}>
                 <Route path=":teamId" element={<Team />} />
                 <Route path="new" element={<NewTeamForm />} />
