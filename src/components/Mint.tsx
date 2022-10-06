@@ -13,6 +13,8 @@ import { cleanString, filetypeIsAllowed, filetypeIsImage, filetypeIsVideo } from
 import { MAX_FILE_SIZE } from '../shared/const';
 import { UploadFileComponent } from './UploadFileComponent';
 import "./Mint.css"
+import { FaTrashAlt, FaPlus } from 'react-icons/fa';
+import underConstruction from '../img/under-construction.png'
 
 interface Props {
   trait_type: string;
@@ -183,7 +185,7 @@ export const Mint = () => {
 
 
   return (
-    <Container style={{ marginTop: "110px", height: "calc(100vh - 110px)" }}>
+    <Container style={{ marginTop: "110px", height: "calc(100vh - 110px)", zIndex:1 }}>
       {!ipfs && (
         <p>Oh oh, Not connected to IPFS. Checkout out the logs for errors</p>
       )}
@@ -191,7 +193,7 @@ export const Mint = () => {
       {ipfs && (
         <>
 
-          <Form onSubmit={onSubmitHandler}>
+          <Form onSubmit={onSubmitHandler} className="mb-5">
             <div className='d-flex justify-content-center'>
               <div className='col-sm-12 col-md-8 col-lg-6 p-2 text-start'>
                 <h1 className='text-white mb-5 text-start'>Create New Item</h1>
@@ -200,7 +202,7 @@ export const Mint = () => {
                   <Form.Label>Blockchain<sup className='text-danger' style={{ fontSize: "16px" }}>*</sup></Form.Label>
                   <Form.Select aria-label="Default select" onChange={(e) => setSelectedChain(e.target.value)}>
                     <option selected value="0x1">Ethereum</option>
-                    <option value="0x81">Polygon</option>
+                    {/* <option value="0x81">Polygon</option> */}
                   </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3 text-light" controlId="formImage">
@@ -335,7 +337,7 @@ export const Mint = () => {
                                     }}
                                     // style={{ borderRadius: 12 }} 
                                     className='btn-danger w-100'>
-                                    x
+                                    <FaTrashAlt/>
                                   </Button>
                                 </td>
 
@@ -347,7 +349,7 @@ export const Mint = () => {
                         <Button
                           type='button'
                           onClick={() => { addNewProp() }}>
-                          Add More
+                          <FaPlus/>
                         </Button>
                         {/* <Button
                   onClick={() => { saveProps() }}>

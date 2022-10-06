@@ -1,1 +1,0 @@
-(self.webpackChunkmy_app=self.webpackChunkmy_app||[]).push([[601],{6601:function(){}}]);

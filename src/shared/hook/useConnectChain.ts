@@ -45,8 +45,8 @@ export const useChain = () => {
     const logout = (external?: boolean) => {
         if (external) {
             if (window.confirm("You are going to logout")) {
-            deactivate()
-            localStorage.clear()
+                deactivate()
+                localStorage.clear()
             }
         } else {
             deactivate()
@@ -57,7 +57,7 @@ export const useChain = () => {
     const hanlderMessage = (messageType: string, messageTitle: string, messageDescription: string, disconnectWallet: boolean) => {
         console.log({ type: messageType, title: messageTitle, description: messageDescription, disconnectWallet: disconnectWallet })
         { disconnectWallet && logout() }
-
+        callSetConnectIsOpen(false)
         callSetModal({
             modalIsOpen: true,
             type: messageType,
@@ -81,15 +81,13 @@ export const useChain = () => {
                         params: [CHAIN.metamaskParams]
                     });
                 } catch (error) {
+                    console.log({ error });
                     hanlderMessage("error", "Error", "Please add correct chain to your wallet", true)
-                    callSetConnectIsOpen(false)
                     deactivate()
                     localStorage.clear()
                 }
             } else {
                 hanlderMessage("error", "Error", switchError.message, true)
-                callSetConnectIsOpen(false)
-
             }
         }
     };
@@ -106,7 +104,6 @@ export const useChain = () => {
                 if (connector instanceof InjectedConnector) {
                     if (!ethereum) {
                         hanlderMessage("error", "Error", "Please install Metamask extension", true)
-                        callSetConnectIsOpen(false)
                         return
                     }
 
@@ -127,7 +124,6 @@ export const useChain = () => {
 
                     } else {
                         hanlderMessage("error", "Error", "Please install Metamask extension", true)
-                        callSetConnectIsOpen(false)
                         return
                     }
                 }
@@ -146,7 +142,6 @@ export const useChain = () => {
                             return
                         }
                         hanlderMessage("error", "Error", error.message, true)
-                        callSetConnectIsOpen(false)
                         return
 
                     }, true)
@@ -157,22 +152,26 @@ export const useChain = () => {
                         return
                     })
                     .catch(error => {
-
+                        
                         if (error.name === "UnsupportedChainIdError") {
                             hanlderMessage("error", "Error", `Unsupported chain, please change network to ${CHAIN.metamaskParams.chainName}`, true)
-                            
                             deactivate()
                             localStorage.clear()
                             return
                         }
-                        
+
+                        // if (error.code === -32002) {
+                        //     hanlderMessage("error", "Error", `Already processing the connection. Please wait.`, true)
+                        //     deactivate()
+                        //     localStorage.clear()
+                        //     return
+                        // }
+
                         hanlderMessage("error", "Error", error.message, true)
-                        callSetConnectIsOpen(false)
                         return
                     })
 
             } catch (error: any) {
-                callSetConnectIsOpen(false)
                 hanlderMessage("error", "Error", error.message, true)
                 return
             }

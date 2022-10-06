@@ -200,6 +200,14 @@ export const MyCollection = () => {
     }
   }, [floorPriceData])
 
+  if(!account){
+    return(
+      <Container style={{ marginTop: "110px", height: "calc(100vh - 110px)" }} className="d-flex justify-content-center text-white" >
+      <h2>Connect your wallet to see your NFTs</h2>
+      </Container>
+    )
+  }
+
   return (
     <Container style={{ marginTop: "110px", height: "calc(100vh - 110px)" }} >
       {showInfiniteScroll}
