@@ -25,7 +25,7 @@ export const useAlchemy = () => {
     const [loadingGetFloorPrice, setLoadingGetFloorPrice] = useState(false)
 
     const settings = {
-        apiKey: env.APIKEY,
+        apiKey: env.REACT_APP_APIKEY,
         network: Network.ETH_MAINNET,
     };
     const alchemy = new Alchemy(settings);
@@ -125,9 +125,8 @@ export const useAlchemy = () => {
 
     const getComputeRarity = async (contractAddresses: string, tokenId: string) => {
         setLoadingGetComputeRarity(true)
-        fetch('https://eth-mainnet.g.alchemy.com/nft/v2/demo/computeRarity?contractAddress=0x8d64528676e437dc27a4ffe88a80141053c5e6f6&tokenId=5030', options)
 
-        await fetch(`https://eth-mainnet.g.alchemy.com/nft/v2/${settings.apiKey}/computeRarity?contractAddress=${contractAddresses}&tokenId=${tokenId}`, options)
+        await fetch(`https://eth-mainnet.g.alchemy.com/nft/v2/demo/computeRarity?contractAddress=${contractAddresses}&tokenId=${tokenId}`, options)
             .then(response => response.json())
             .then((response) => {
                 setLoadingGetComputeRarity(false)
@@ -157,6 +156,21 @@ export const useAlchemy = () => {
             });
     }
 
+    const getBalances = useCallback(
+        async (account: string) => {
+            await alchemy.core
+                .getTokenBalances(account, ["0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"])
+                .then((res: any) => {
+                    console.log({res})
+                    console.log(res.tokenBalances[0].tokenBalance/1e18)
+                })
+                .catch((err) => {
+                    console.error({ err })
+                });
+        },
+        []
+    )
+
 
     return {
         alchemy,
@@ -178,7 +192,8 @@ export const useAlchemy = () => {
         computeRarity,
         getFloorPrice,
         loadingGetFloorPrice,
-        floorPriceData
+        floorPriceData,
+        getBalances
     }
 
 }

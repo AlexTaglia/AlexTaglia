@@ -2,11 +2,12 @@ import Particles from "react-tsparticles";
 import type { Container as ContainerTS, Engine } from "tsparticles-engine";
 import { loadFull } from "tsparticles";
 import { useCallback } from 'react';
+import useMediaQuery from "../shared/hook/useMediaQuery";
+import { useWeb3React } from "@web3-react/core";
 
 export const ParticlesCustom = () => {
 
   const particlesInit = useCallback(async (engine: Engine) => {
-    console.log(engine);
 
     // you can initialize the tsParticles instance (engine) here, adding custom shapes or presets
     // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
@@ -15,9 +16,11 @@ export const ParticlesCustom = () => {
   }, []);
 
   const particlesLoaded = useCallback(async (container: ContainerTS | undefined) => {
-    await console.log(container);
+    // await console.log(container);
   }, []);
 
+  const isMobile = useMediaQuery(950)
+  const {account} = useWeb3React()
 
   return (
     <Particles
@@ -27,7 +30,7 @@ export const ParticlesCustom = () => {
       options={{
         background: {
           color: {
-            value: "var(--gray-light)",
+            value: "#383838",
           },
         },
         fpsLimit: 60,
@@ -38,18 +41,19 @@ export const ParticlesCustom = () => {
 
         particles: {
           color: {
-            value: "#007bff",
+            value: account ? "#1FDAD5" : "#d3f5eb",
 
           },
           links: {
             enable: true,
-            value: "#007bff545",
-            distance: 100
+            value: account ? "#1FDAD5" : "#d3f5eb",
+            distance: isMobile ? 100 : 200
           },
           move: {
             enable: true,
-            speed: 0.5,
-          }
+            speed: 0.2,
+          },
+          
         }
       }}
     />

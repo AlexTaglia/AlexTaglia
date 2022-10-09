@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 import { ethers } from 'ethers';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ABI, CHAIN, connectors } from '../const';
 import { useModal } from './useModal';
 // import { useSetConnectModal } from './useConnectModalStore';
@@ -15,6 +15,8 @@ export const useChain = () => {
     const { activate, deactivate, active, account, library, chainId } = useWeb3React();
     const [correctChain, setCorrectChain] = useState(false)
     const { callSetConnectIsOpen, callSetModal } = useModal()
+    const [balance, setBalance] = useState<number>(0)
+    const [ensName, setEnsName] = useState<string>("")
 
     // const { callSetMintErrorMessage } = useSetMintErrorMessage()
     // const { callSetMintError } = useSetMintError()
@@ -55,7 +57,7 @@ export const useChain = () => {
     }
 
     const hanlderMessage = (messageType: string, messageTitle: string, messageDescription: string, disconnectWallet: boolean) => {
-        console.log({ type: messageType, title: messageTitle, description: messageDescription, disconnectWallet: disconnectWallet })
+        console.debug({ type: messageType, title: messageTitle, description: messageDescription, disconnectWallet: disconnectWallet })
         { disconnectWallet && logout() }
         callSetConnectIsOpen(false)
         callSetModal({
@@ -81,7 +83,7 @@ export const useChain = () => {
                         params: [CHAIN.metamaskParams]
                     });
                 } catch (error) {
-                    console.log({ error });
+                    console.error({ error });
                     hanlderMessage("error", "Error", "Please add correct chain to your wallet", true)
                     deactivate()
                     localStorage.clear()
@@ -129,22 +131,22 @@ export const useChain = () => {
                 }
 
                 if (connector instanceof WalletLinkConnector &&
-
                     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                    await switchNetwork()
+                    // await switchNetwork() //-> non funziona su app coinbase wallet
                 }
 
-                activate(connector,
-                    (error: Error) => {
-                        if (error.name === "UnsupportedChainIdError") {
-                            deactivate()
-                            localStorage.clear()
-                            return
-                        }
+                activate(connector, (error: Error) => {
+                    if (error.name === "UnsupportedChainIdError") {
+                        hanlderMessage("error", "Error", `Unsupported chain, please change network to ${CHAIN.metamaskParams.chainName}`, true)
+                        deactivate()
+                        localStorage.clear()
+                        return
+                    } else {
                         hanlderMessage("error", "Error", error.message, true)
                         return
+                    }
 
-                    }, true)
+                }, true)
                     .then(() => {
                         setProviderLS(type)
                         { props && isStepper && props.nextStep() }
@@ -152,23 +154,20 @@ export const useChain = () => {
                         return
                     })
                     .catch(error => {
-                        
                         if (error.name === "UnsupportedChainIdError") {
                             hanlderMessage("error", "Error", `Unsupported chain, please change network to ${CHAIN.metamaskParams.chainName}`, true)
-                            deactivate()
-                            localStorage.clear()
                             return
+                        } else if (error.code === -32002) {
+                            hanlderMessage("info", "Info", `Already processing the connection. Please check your wallet`, true)
+                            return
+                        } else {
+                            if (error.message.includes("Unsupported chain")) {
+                                hanlderMessage("error", "Error", `Unsupported chain, please change network to ${CHAIN.metamaskParams.chainName}`, true)
+                            } else {
+                                hanlderMessage("error", "Error", error.message, true)
+                                return
+                            }
                         }
-
-                        // if (error.code === -32002) {
-                        //     hanlderMessage("error", "Error", `Already processing the connection. Please wait.`, true)
-                        //     deactivate()
-                        //     localStorage.clear()
-                        //     return
-                        // }
-
-                        hanlderMessage("error", "Error", error.message, true)
-                        return
                     })
 
             } catch (error: any) {
@@ -191,7 +190,7 @@ export const useChain = () => {
         }
     }
 
-    const contractMethod = async <T>(method: (account?: string) => T, name: string, account?: string) => {
+    const contractGetMethod = async <T>(method: (account?: string) => T, name: string, account?: string) => {
         try {
             let data
             if (account) {
@@ -254,8 +253,47 @@ export const useChain = () => {
         }
     }
 
+    // convert address to ens
+    const ensToAddr = async (address: string) => {
+        try {
+            const name = await library.lookupAddress(address);
+            setEnsName(name)
+        } catch (error) {
+            setEnsName("")
+        }
+    }
 
-    return { connectWallet, reconnect, getActualChainId, logout, contract, contractMethod, correctChain, mint, hanlderMessage }
+    const getBalance = (account: string) => {
+        library?.getBalance(account).then((result: number) => {
+            const res = result / 1e18
+            setBalance(res)
+        })
+    }
+
+    useEffect(() => {
+        { account && ensToAddr(account) }
+        { account && getBalance(account) }
+    }, [account])
+
+
+
+
+
+    return { 
+        connectWallet, 
+        reconnect, 
+        getActualChainId, 
+        logout, 
+        contract, 
+        contractGetMethod, 
+        correctChain, 
+        mint, 
+        hanlderMessage, 
+        ensToAddr, 
+        balance, 
+        getBalance, 
+        ensName 
+    }
 
 }
 

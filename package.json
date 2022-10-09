@@ -84,7 +84,8 @@
       "REACT_APP_PROJECT_SECRET",
       "REACT_APP_APIKEY",
       "REACT_APP_INFURA_KEY",
-      "REACT_APP_CONTRACT"
+      "REACT_APP_CONTRACT",
+      "REACT_APP_IPFS"
     ]
   }
 }

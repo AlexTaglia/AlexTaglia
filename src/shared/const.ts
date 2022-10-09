@@ -7,6 +7,7 @@ import { toHex } from "../shared/utils/Formatters";
 import env from "react-dotenv";
 
 export const OPENSEA = "https://opensea.io/account"
+export const metamaskLink = "https://metamask.app.link/dapp/alextaglia.netlify.app/"
 
 
 // CHAIN
@@ -75,8 +76,8 @@ const walletConnectConnector = new WalletConnectConnector({
 //coinbase
 const coinbaseConnector = new WalletLinkConnector({
     url: CHAIN_RPC + INFURA_KEY,
-    appName: "Monza Meta Circuit",
-    supportedChainIds: [-1, CHAIN_ID],
+    appName: "AlexTaglia",
+    supportedChainIds: [CHAIN_ID],
     darkMode: true
 });
 

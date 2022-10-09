@@ -13,6 +13,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  HashRouter
 } from "react-router-dom";
 import { MyCollection } from './components/MyCollection';
 import { Mint } from './components/Mint';
@@ -21,12 +22,13 @@ import { GlobalModal } from './components/GlobalModal';
 import { ParticlesCustom } from './components/Particles';
 import { Home } from './components/Home';
 import { Footer } from './components/Footer';
-
+import env from 'react-dotenv';
+ 
 function App() {
 
-  const { reconnect } = useChain()
-  const { account } = useWeb3React()
-  const { getNftsForOwner, ownedNftsResponse, getNFTMetadata, refreshContract } = useAlchemy()
+  const { reconnect, getBalance } = useChain()
+  const { account, library } = useWeb3React()
+  const { getNftsForOwner, ownedNftsResponse, getNFTMetadata, refreshContract, getBalances } = useAlchemy()
   const [items, setItems] = useState<OwnedNft[]>([])
   const { modal, callSetModal, callSetLogoutIsOpen, callSetConnectIsOpen } = useModal()
 
@@ -35,11 +37,17 @@ function App() {
     reconnect()
   }, [])
 
+  
+  useEffect(() => {
+    {account && getBalance(account)}
+  }, [account])
+
+  const Router = env.REACT_APP_IPFS ===  "true" ? HashRouter : BrowserRouter
 
   return (
-    <Container fluid className="App" style={{ overflowY: "auto" }}>
+    <Container fluid className="App" style={{ overflowY: "auto", paddingRight:"0" }}>
       <ParticlesCustom />
-      <BrowserRouter>
+      <Router>
         <Navbarg />
         <Routes>
           <Route path="/" element={<Home />}/>
@@ -53,7 +61,7 @@ function App() {
           {/* </Route> */}
         </Routes>
         <Footer/>
-      </BrowserRouter>
+      </Router>
 
       {/* <Container> */}
       <ConnectWallet
@@ -75,6 +83,7 @@ function App() {
           description: ""
         })}
       />
+
 
 
       {/* </Container> */}

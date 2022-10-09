@@ -2,8 +2,9 @@
   --yellow: #b9fc00 !important;
   --yellowHover: #daff74 !important;
   --yellowActive: #d7ff67 !important;
-  --dark: #343a40;
   --light: #f8f9fa;
+  --gray-dark: #222 !important;
+  --primary: #1FDAD5 !important;
 
   --blue: #007bff;
   --indigo: #6610f2;
@@ -17,8 +18,6 @@
   --cyan: #17a2b8;
   --white: #fff;
   --gray: #6c757d;
-  --gray-dark: #343a40;
-  --primary: #007bff;
   --secondary: #6c757d;
   --success: #28a745;
   --info: #17a2b8;
@@ -42,6 +41,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow:initial !important;
+  background-color: #343a40;
 }
 
 code {
@@ -49,11 +49,35 @@ code {
     monospace;
 }
 
+h1{
+  font-size: 3.5rem !important;
+}
+h3{
+  font-size: 2rem !important;
+}
+
 a{
   text-decoration: none !important;
   color: white !important;
 }
 
+.dropdown-item:focus, .dropdown-item:hover {
+  color: var(--gray-dark) !important;
+  background-color: var(--primary) !important;
+}
+
+.btn {
+  border-radius: 20px !important;
+  border: none !important;
+}
+
+.navbar-toggler {
+  border: none !important;
+}
+
+.btn-primary {
+  background-color: var(--primary) !important;
+}
 
 .btn:focus,.navbar-toggler:focus {
   box-shadow: none !important;
@@ -102,6 +126,37 @@ a{
     rgba(42, 139, 6, 1) 100%,
     rgba(61, 7, 196, 1) 100%
   );
+}
+
+input,  select{
+  padding: 14px  12px !important
+}
+
+svg {
+  vertical-align: inherit !important;
+}
+
+svg:hover {
+  fill: var(--primary) !important;
+}
+
+.logoChain {
+  width: 32px;
+  border-radius: 50%;
+  border: 5px solid var(--gray-dark);
+  position: absolute;
+  top: -14px;
+  right: 14px;
+
+
+}
+
+.modal-content {
+  border: none !important;
+}
+
+.modal-header .btn-close {
+  color: white !important;
 }
 
 /* .btn-primary {

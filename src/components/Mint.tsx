@@ -67,6 +67,13 @@ export const Mint = () => {
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    // callSetModal({
+    //   modalIsOpen: true,
+    //   type: "info",
+    //   title: "Info",
+    //   description: "Cooming soon"
+    // })
+
     const form = event.target as HTMLFormElement;
     const chain = (form[0] as HTMLInputElement).value;
     const name = (form[2] as HTMLInputElement).value;
@@ -75,6 +82,8 @@ export const Mint = () => {
     const contractType = (form[4] as HTMLInputElement).value;
     const qTy = (form[4] as HTMLInputElement).value;
     setSelectedChain(chain)
+    hanlderMessage("info", "Minting", "CoomingSoon", false)
+
 
     console.log({ chain });
     console.log({ name });
@@ -193,10 +202,10 @@ export const Mint = () => {
       {ipfs && (
         <>
 
-          <Form onSubmit={onSubmitHandler} className="mb-5">
+          <Form onSubmit={onSubmitHandler} >
             <div className='d-flex justify-content-center'>
-              <div className='col-sm-12 col-md-8 col-lg-6 p-2 text-start'>
-                <h1 className='text-white mb-5 text-start'>Create New Item</h1>
+              <div className='col-12 col-md-8 col-lg-6 p-2 text-start'>
+                <h1 className='text-white mb-5 text-start'>Create your NFT</h1> 
                 <h6 className='text-white mb-4'><span className='text-danger'>*</span> Required fields</h6>
                 <Form.Group className="mb-3 text-light" controlId="formSelect">
                   <Form.Label>Blockchain<sup className='text-danger' style={{ fontSize: "16px" }}>*</sup></Form.Label>
@@ -214,16 +223,6 @@ export const Mint = () => {
                     callback={setSelectedImageHome}
                     label=""
                   />
-                  {/* <Form.Control
-                    className="form-control"
-                    required
-                    name="file"
-                    type="file"
-                    accept=".png,.jpeg,.jpg,.gif"
-                    // accept=".png,.jpeg,.jpg,.gif,.mp4,.mov"
-                    pattern="^[a-zA-Z0-9]"
-                  // onChange={(e)=>onSelectFile(e)}
-                  /> */}
                 </Form.Group>
 
                 <Form.Group className="mb-3 text-start text-light" controlId="formDescription">
@@ -252,8 +251,7 @@ export const Mint = () => {
                   <Form.Control
                     placeholder="https://yoursite.io/item/123"
                     className="form-control mb-3"
-                    required
-                    name="name"
+                    name="externallink"
                     type="text"
                   // onChange={(e)=>setName(e.target.value)} 
                   />
@@ -274,7 +272,7 @@ export const Mint = () => {
                     placeholder="enter Quantity"
                     className="form-control mb-3"
                     required
-                    name="name"
+                    name="Supply"
                     type="number"
                   // onChange={(e)=>setName(e.target.value)} 
                   />
@@ -366,6 +364,7 @@ export const Mint = () => {
             </div>
 
             <Button
+            style={{marginBottom: "88px"}}
               type="submit"
             >Create</Button>
           </Form>
