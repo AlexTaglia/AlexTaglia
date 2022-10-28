@@ -7,7 +7,8 @@ const initialState: ModalState = {
         modalIsOpen: false,
         type: "",
         title: "",
-        description: ""
+        description: "",
+        isLoading:false
     },
     walletModal: {
         connectIsOpen: false,
@@ -29,7 +30,9 @@ export const setModalActionTypeCase = (state: ModalState, action: setModalAction
         modalIsOpen: action.payload.modalIsOpen,
         type: action.payload.type,
         title: action.payload.title,
-        description: action.payload.description}
+        description: action.payload.description,
+        isLoading: action.payload.isLoading
+    }
 });
 
 export const setResetModalTypeCase = (state: ModalState, action: setResetModalType): ModalState => ({
@@ -38,7 +41,9 @@ export const setResetModalTypeCase = (state: ModalState, action: setResetModalTy
         modalIsOpen: false,
         type: "",
         title: "",
-        description: ""}
+        description: "",
+        isLoading: false
+    }
 });
 
 export const setToggleLogoutTypeCase = (state: ModalState, action: setToggleLogoutType): ModalState => ({

@@ -1,0 +1,15 @@
+/* .message-container{
+    background-color: var(--gray-dark);
+    color: white;
+    max-width: 70%;
+    margin-bottom: 18px;
+    border-radius: 12px;
+} */
+
+.message-container .date{
+    font-size: 0.7rem;
+}
+
+.message-container .text{
+    font-size: 1.1rem;
+}

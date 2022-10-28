@@ -4,6 +4,7 @@ import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 import { ethers } from 'ethers';
 import { useCallback, useEffect, useState } from 'react';
+import { PriceResponce } from '../../types';
 import { ABI, CHAIN, connectors } from '../const';
 import { useModal } from './useModal';
 // import { useSetConnectModal } from './useConnectModalStore';
@@ -14,7 +15,7 @@ export const useChain = () => {
 
     const { activate, deactivate, active, account, library, chainId } = useWeb3React();
     const [correctChain, setCorrectChain] = useState(false)
-    const { callSetConnectIsOpen, callSetModal } = useModal()
+    const { callSetConnectIsOpen, callSetModal, callSetResetModal } = useModal()
     const [balance, setBalance] = useState<number>(0)
     const [ensName, setEnsName] = useState<string>("")
 
@@ -56,7 +57,7 @@ export const useChain = () => {
         }
     }
 
-    const hanlderMessage = (messageType: string, messageTitle: string, messageDescription: string, disconnectWallet: boolean) => {
+    const hanlderMessage = (messageType: string, messageTitle: string, messageDescription: string, isLoading: boolean, disconnectWallet: boolean) => {
         console.debug({ type: messageType, title: messageTitle, description: messageDescription, disconnectWallet: disconnectWallet })
         { disconnectWallet && logout() }
         callSetConnectIsOpen(false)
@@ -64,7 +65,8 @@ export const useChain = () => {
             modalIsOpen: true,
             type: messageType,
             title: messageTitle,
-            description: messageDescription
+            description: messageDescription,
+            isLoading: isLoading
         })
     }
 
@@ -84,12 +86,12 @@ export const useChain = () => {
                     });
                 } catch (error) {
                     console.error({ error });
-                    hanlderMessage("error", "Error", "Please add correct chain to your wallet", true)
+                    hanlderMessage("error", "Error", "Please add correct chain to your wallet", false, true)
                     deactivate()
                     localStorage.clear()
                 }
             } else {
-                hanlderMessage("error", "Error", switchError.message, true)
+                hanlderMessage("error", "Error", switchError.message, false, true)
             }
         }
     };
@@ -105,7 +107,7 @@ export const useChain = () => {
             try {
                 if (connector instanceof InjectedConnector) {
                     if (!ethereum) {
-                        hanlderMessage("error", "Error", "Please install Metamask extension", true)
+                        hanlderMessage("error", "Error", "Please install Metamask extension", false, true)
                         return
                     }
 
@@ -125,7 +127,7 @@ export const useChain = () => {
                         }
 
                     } else {
-                        hanlderMessage("error", "Error", "Please install Metamask extension", true)
+                        hanlderMessage("error", "Error", "Please install Metamask extension", false, true)
                         return
                     }
                 }
@@ -137,12 +139,12 @@ export const useChain = () => {
 
                 activate(connector, (error: Error) => {
                     if (error.name === "UnsupportedChainIdError") {
-                        hanlderMessage("error", "Error", `Unsupported chain, please change network to ${CHAIN.metamaskParams.chainName}`, true)
+                        hanlderMessage("error", "Error", `Unsupported chain, please change network to ${CHAIN.metamaskParams.chainName}`, false, true)
                         deactivate()
                         localStorage.clear()
                         return
                     } else {
-                        hanlderMessage("error", "Error", error.message, true)
+                        hanlderMessage("error", "Error", error.message, false, true)
                         return
                     }
 
@@ -155,23 +157,23 @@ export const useChain = () => {
                     })
                     .catch(error => {
                         if (error.name === "UnsupportedChainIdError") {
-                            hanlderMessage("error", "Error", `Unsupported chain, please change network to ${CHAIN.metamaskParams.chainName}`, true)
+                            hanlderMessage("error", "Error", `Unsupported chain, please change network to ${CHAIN.metamaskParams.chainName}`, false, true)
                             return
                         } else if (error.code === -32002) {
-                            hanlderMessage("info", "Info", `Already processing the connection. Please check your wallet`, true)
+                            hanlderMessage("info", "Info", `Already processing the connection. Please check your wallet`, false, true)
                             return
                         } else {
                             if (error.message.includes("Unsupported chain")) {
-                                hanlderMessage("error", "Error", `Unsupported chain, please change network to ${CHAIN.metamaskParams.chainName}`, true)
+                                hanlderMessage("error", "Error", `Unsupported chain, please change network to ${CHAIN.metamaskParams.chainName}`, false, true)
                             } else {
-                                hanlderMessage("error", "Error", error.message, true)
+                                hanlderMessage("error", "Error", error.message, false, true)
                                 return
                             }
                         }
                     })
 
             } catch (error: any) {
-                hanlderMessage("error", "Error", error.message, true)
+                hanlderMessage("error", "Error", error.message, false, true)
                 return
             }
         }
@@ -201,37 +203,39 @@ export const useChain = () => {
             return data
         } catch (error: any) {
             // console.error({error})
-            hanlderMessage("error", name, error.message, false)
+            hanlderMessage("error", name, error.message, false, false)
         }
     }
 
-    const mint = async (price: string, qty: number, uri: string, props?: any) => {
+    const handleTnx = async (txn: any) => {
+        txn.wait();
+
+        hanlderMessage("info", "Waiting blockchain", "Wait for the operations on blockchain to complete.", true, false)
+        await library.waitForTransaction(txn.hash);
+        const receipt = await library.getTransactionReceipt(txn.hash);
+
+        if (receipt.status === 1) {
+            // console.log("receipt.status === 1")
+            hanlderMessage("info", "Minting Complete", "Congratulation!.", false, false)
+            return true
+
+        } else {
+            // console.log("receipt.status !== 1")
+            hanlderMessage("error", "Error", "Something went wrong.", false, false)
+            return false
+        }
+    }
+
+
+    const mint = async (price: string, qty: number, uri: string) => {
         try {
             // callSetMintLoading(true)
-            { props && props.nextStep() }
 
-            hanlderMessage("info", "Loading wallet permission", "Please wait notification and complete the operation to continue", false)
-            await contract.mint(`${qty}`, `${uri}`, { value: `${price}` })
+            hanlderMessage("info", "Loading wallet permission", "Please wait notification and complete the operation to continue", true, false)
+            const minted: boolean = await contract.mint(`${qty}`, `${uri}`, { value: `${price}` })
                 .then(async (nftTxn: any) => {
+                    return await handleTnx(nftTxn)
 
-                    nftTxn.wait();
-                    hanlderMessage("info", "Waiting blockchain", "Wait for the operations on blockchain to complete.", false)
-                    await library.waitForTransaction(nftTxn.hash);
-                    const receipt = await library.getTransactionReceipt(nftTxn.hash);
-
-                    if (receipt.status === 1) {
-                        // console.log("success")
-
-                        { props && props.nextStep() }
-
-                        return true
-                    } else {
-                        // console.log("Something went wrong")
-
-                        hanlderMessage("error", "Error", "Something went wrong.", false)
-
-                        return false
-                    }
                 }).catch((error: any) => {
                     // console.error({ error })
                     const errorMessage = error?.data?.message ?? error?.reason ?? error?.message;
@@ -239,17 +243,15 @@ export const useChain = () => {
                     const description = isTooLowGas ? 'Your gas fee are too low, set to high to ensure the transaction confirmation' : errorMessage
 
                     // callSetMintResponse(false);
-                    hanlderMessage("error", "Error", description, false)
-
+                    hanlderMessage("error", "Error", description, false, false)
                     return false
                 })
+            return minted
 
 
         } catch (error: any) {
-            // console.error({error})
-            // callSetMintResponse(false);
-            hanlderMessage("error", "Error", error.message, false)
-            return
+            hanlderMessage("error", "Error", error.message, false, false)
+            return false
         }
     }
 
@@ -270,29 +272,54 @@ export const useChain = () => {
         })
     }
 
+    const price = useCallback(
+        async () => {
+            // await sleep(600);
+            if (account) {
+                let p: PriceResponce = {
+                    price: "",
+                    formatPrice: ""
+                }
+                try {
+                    p.price = await contract.cost()
+                    p.formatPrice = ethers.utils.formatEther(p.price)
+                    return p
+                } catch (error: any) {
+                    // console.log("loading price", { error })
+                    hanlderMessage("error", "Error loading price", error.message, false, false)
+                    return p
+                }
+            }
+        }, [account],
+    )
+
     useEffect(() => {
         { account && ensToAddr(account) }
         { account && getBalance(account) }
     }, [account])
 
 
+    const iswitelisted = async (account:string) => {
+        const isWitelisted: boolean = await contract.isWhitelisted(account)
+        return isWitelisted
+    }
 
-
-
-    return { 
-        connectWallet, 
-        reconnect, 
-        getActualChainId, 
-        logout, 
-        contract, 
-        contractGetMethod, 
-        correctChain, 
-        mint, 
-        hanlderMessage, 
-        ensToAddr, 
-        balance, 
-        getBalance, 
-        ensName 
+    return {
+        connectWallet,
+        reconnect,
+        getActualChainId,
+        logout,
+        contract,
+        contractGetMethod,
+        correctChain,
+        mint,
+        hanlderMessage,
+        ensToAddr,
+        balance,
+        getBalance,
+        ensName,
+        price,
+        iswitelisted
     }
 
 }

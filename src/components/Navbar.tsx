@@ -11,11 +11,12 @@ import { useModal } from '../shared/hook/useModal';
 import { displayFormat } from '../shared/utils/Formatters';
 import { FaHome, FaWallet } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
+import { Accordion } from 'react-bootstrap';
 
 export const Navbarg = () => {
     const { modal, callSetModal, callSetLogoutIsOpen, callSetConnectIsOpen } = useModal()
     const { account } = useWeb3React()
-    const { logout, ensToAddr, balance, ensName} = useChain()
+    const { logout, ensToAddr, balance, ensName } = useChain()
 
     return (
         <Navbar fixed="top" expand="lg" variant="dark" bg="dark">
@@ -26,8 +27,14 @@ export const Navbarg = () => {
                 <Navbar.Collapse id="navbarScroll" className='justify-content-end'>
                     <Nav className=" my-2 my-lg-0 text-center">
                         <NavDropdown title="Blockchain" id="collasible-nav-dropdown">
-                            <Link className='text-dark dropdown-item' to="/mycollection">Your NFTs</Link>
-                            <Link className='text-dark dropdown-item' to="/mint">Create</Link>
+                            <Link className='text-dark dropdown-item' to="/chat">Chat</Link>
+                            <Accordion>
+                                <Accordion.Header>NFT</Accordion.Header>
+                                <Accordion.Body>
+                                    <Link className='text-dark dropdown-item' to="/mint">Create</Link>
+                                    <Link className='text-dark dropdown-item' to="/mycollection">Crations</Link>
+                                </Accordion.Body>
+                            </Accordion>
                         </NavDropdown>
 
                     </Nav>

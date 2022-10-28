@@ -1,6 +1,7 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
+import abiChat from './abi/abiChat.json';
 import abi from './abi/abi.json';
 import { toHex } from "../shared/utils/Formatters";
 // TO DO INSERIRE I LINK
@@ -13,12 +14,14 @@ export const metamaskLink = "https://metamask.app.link/dapp/alextaglia.netlify.a
 // CHAIN
 
 export const ABI = abi;
+export const ABI_chat = abiChat;
+export const SUPPORTED_FORMATS =  ["image/jpg", "image/jpeg", "image/gif", "image/png"]
+export const MAX_FILE_SIZE:number = 103809024; //99MB
 
 export const INFURA_KEY = env.REACT_APP_INFURA_KEY
 
 const CHAIN_MAINNET_ID: number = 1;
-const CHAIN_TESTNET_ID: number = 4;
-export const MAX_FILE_SIZE:number = 103809024; //99MB
+const CHAIN_TESTNET_ID: number = 5;
 
 
 const AVAILABLE_CHAINS = {
@@ -42,19 +45,19 @@ const AVAILABLE_CHAINS = {
         contract: env.REACT_APP_CONTRACT,
         metamaskParams: {
             chainId: toHex(CHAIN_TESTNET_ID),
-            chainName: 'Rinkeby Testnet',
+            chainName: 'Goerli Testnet',
             nativeCurrency: {
-                name: 'RinkebyETH',
-                symbol: 'RinkebyETH',
+                name: 'GoerliETH',
+                symbol: 'GoerliETH',
                 decimals: 18
             },
-            rpcUrls: ['https://Rinkeby.infura.io/v3/'],
-            blockExplorerUrls: ['https://Rinkeby.etherscan.io']
+            rpcUrls: ['https://Goerli.infura.io/v3/'],
+            blockExplorerUrls: ['https://Goerli.etherscan.io']
         }
     }
 }
 //!!!!! TODO Cambiare solo questo in AVAILABLE_CHAINS.mainnet
-export const CHAIN = AVAILABLE_CHAINS.mainnet
+export const CHAIN = AVAILABLE_CHAINS.testnet
 //!!!!!
 
 export const CHAIN_ID = CHAIN.chainId

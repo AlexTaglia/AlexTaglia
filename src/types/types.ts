@@ -1,3 +1,5 @@
+import { type } from "os"
+
 export interface AssetFile {
   file: File
   src?: string
@@ -23,3 +25,30 @@ export type FloorPrice = {
   retrievedAt: string
 }
 
+export type Mex = {
+  sender: string;
+  timestamp : number ;
+  msg: string;
+
+}
+
+export type Friend = {
+  pubkey: string;
+  name: string
+}
+
+export type User = {
+  name: string;
+  friendList: Friend[]
+}
+
+export type ActiveChat = {
+  name: string,
+  pubkey: string,
+}
+
+export type LoginResp = {
+  username: string, 
+  addr: string, 
+  showConnectButto: string
+}

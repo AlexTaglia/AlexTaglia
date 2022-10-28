@@ -1,0 +1,19 @@
+.chat-card {
+    text-align: left;
+    border-bottom: 1px solid gray;
+}
+
+.chat-card:hover {
+    background-color: azure;
+}
+
+.chat-card .name {
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-bottom: 0px;
+}
+
+.chat-card .addr {
+    cursor: pointer;
+    font-size: 0.8rem;
+}

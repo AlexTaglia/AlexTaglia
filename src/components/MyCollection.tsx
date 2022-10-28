@@ -35,29 +35,59 @@ export const MyCollection = () => {
 
   useEffect(() => {
     if (account) {
+
+      console.log("1")
       getNftsForOwner(account)
     }
   }, [account])
 
   useEffect(() => {
-    if (ownedNftsResponse && ownedNftsResponse?.ownedNfts) {
-      if (items.length < ownedNftsResponse?.totalCount) {
+    {account && console.log("account", {account})}
+  }, [account])
 
-        let ownedNftsInit: OwnedNft[]
+  const next = () => {
+    console.log("next");
+    if (account) {
+      console.log("2")
 
-        if (items.length === 0) {
-          ownedNftsInit = []
-        } else {
-          ownedNftsInit = items
-        }
+      getNftsForOwner(account)
+    }
+  }
 
-        const ownedNftsToAdd: OwnedNft[] = ownedNftsResponse?.ownedNfts
-        const ownedNfts = [...items, ...ownedNftsToAdd]
+  useEffect(() => {
+        console.log("reset")
+        setItems([])
+  }, [])
+
+  useEffect(() => {
+    if (ownedNftsResponse?.ownedNfts) {
+      // if (items.length < ownedNftsResponse?.totalCount) {
+        console.log({items})
+        console.log({ownedNftsResponse})
+        
+        // let ownedNftsInit: OwnedNft[]
+
+        // if (items.length === 0) {
+        //   console.log("if");
+          
+        //   ownedNftsInit = []
+        // } else {
+        //   console.log("else");
+
+        //   ownedNftsInit = items
+        // }
+        
+        // const ownedNftsToAdd: OwnedNft[] = ownedNftsResponse?.ownedNfts
+        const ownedNfts = [...items, ...ownedNftsResponse.ownedNfts]
+        
+        console.log({ownedNfts})
+
+  
         setItems(ownedNfts)
       }
 
-    }
-  }, [ownedNftsResponse, items])
+    // }
+  }, [ownedNftsResponse])
 
   const openDetail = (item: OwnedNft) => {
     setDetailIsOpen(true)
@@ -131,7 +161,7 @@ export const MyCollection = () => {
             }
             {item.rawMetadata?.animation_url ?
               <video controls className={mediaLoaded ? "rounded" : "d-none"} onLoad={() => onLoad()} loop src={item.rawMetadata?.animation_url?.replace("ipfs://", "https://ipfs.io/ipfs/")}></video> :
-              <Card.Img className={mediaLoaded ? "rounded" : "d-none"} onLoad={() => onLoad()} variant="top" src={item?.media[0]?.gateway} />
+              <Card.Img style={{height:"100%", objectFit:"contain"}} className={mediaLoaded ? "rounded" : "d-none"} onLoad={() => onLoad()} variant="top" src={item?.media[0]?.gateway} />
             }
             <Card.Body className='position-relative'>
               <img className='logoChain' src={logoEth} alt="" />
@@ -146,14 +176,22 @@ export const MyCollection = () => {
           </Card>)
       });
     }
-  }, [ownedNftsResponse, items, mediaLoaded, contractMetadataResponse])
+  }, [items, mediaLoaded])
 
   const showInfiniteScroll = useMemo(() => {
 
     if (ownedNftsResponse?.totalCount) {
-      return (<InfiniteScroll
+      // console.log(items.length)
+      // console.log(items)
+      // console.log(ownedNftsResponse?.totalCount)
+      // console.log("hasMore: ",items.length < ownedNftsResponse?.totalCount)
+      return (
+      <InfiniteScroll
         dataLength={items.length}
-        next={() => account && getNftsForOwner(account)}
+        next={() => next()}
+        height={650}
+        scrollThreshold={0.8}
+        pullDownToRefreshThreshold={50}
         hasMore={items.length < ownedNftsResponse?.totalCount}
         loader={<h4 style={{ color: "white" }}>Loading...</h4>}
         endMessage={
@@ -167,7 +205,7 @@ export const MyCollection = () => {
         </div>
       </InfiniteScroll>)
     }
-  }, [ownedNftsResponse?.totalCount, items, account, mediaLoaded, contractMetadataResponse, getNftsForOwner])
+  }, [ownedNftsResponse?.totalCount, items, account, mediaLoaded, contractMetadataResponse])
 
   const showFloorPrices = useMemo(() => {
 

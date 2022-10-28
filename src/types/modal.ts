@@ -9,7 +9,8 @@ export type  GeneralModal= {
     modalIsOpen:boolean,
     type: string,
     title: string,
-    description:string
+    description:string,
+    isLoading:boolean
 }
 
 export type  WalletModal= {

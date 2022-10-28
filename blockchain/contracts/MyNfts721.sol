@@ -19,7 +19,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721Enumer
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 
-contract MyNfts_V0 is Initializable, ERC721EnumerableUpgradeable, OwnableUpgradeable {
+contract alexTagliaNfts_V0 is Initializable, ERC721EnumerableUpgradeable, OwnableUpgradeable {
     using StringsUpgradeable for uint256;
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
@@ -40,10 +40,10 @@ contract MyNfts_V0 is Initializable, ERC721EnumerableUpgradeable, OwnableUpgrade
     function initialize(string memory _name, string memory _symbol) public initializer  {
         OwnableUpgradeable.__Ownable_init();
         __ERC721_init(_name, _symbol);
-        cost = 0.001 ether;
+        cost = 0.0001 ether;
         maxSupply = 999;
         maxMintAmount = 1;
-        nftPerAddressLimit = 10;
+        nftPerAddressLimit = 100;
         paused = false;
         onlyWhitelisted = true;
     }

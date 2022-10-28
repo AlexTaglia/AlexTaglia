@@ -26,7 +26,7 @@ export const useAlchemy = () => {
 
     const settings = {
         apiKey: env.REACT_APP_APIKEY,
-        network: Network.ETH_MAINNET,
+        network: Network.ETH_GOERLI,
     };
     const alchemy = new Alchemy(settings);
 
@@ -36,7 +36,7 @@ export const useAlchemy = () => {
         const option = {
             pageKey: ownedNftsResponse?.pageKey,
             pageSize: 10,
-            // contractAddresses: ["0x96274FBaa302550Df96fcaEC0883BdAB5e9eB0E1", "0x98382C7BADDaAd4c2151864BB8cbbA5Cc2E23974"] //Max limit 20 contracts.
+            contractAddresses: ["0x0214Ed70Cb7b67Dc1Cd03F540cBF15ae3805e242"] //Max limit 20 contracts.
         }
         return option
 

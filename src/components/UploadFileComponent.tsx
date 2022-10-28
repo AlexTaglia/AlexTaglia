@@ -2,6 +2,8 @@ import React, { CSSProperties, useEffect, useMemo, useState } from "react"
 import Tooltip from 'react-bootstrap/Tooltip';
 import { OverlayTrigger } from "react-bootstrap";
 import { filetypeIsAllowed, filetypeIsAudio, filetypeIsImage, filetypeIsVideo } from "../shared/utils/fileUtils";
+import { FormikProps, FieldInputProps, FormikContextType, Formik } from 'formik'
+
 export interface UploadFileComponentProps {
     previewType?: "video" | "audio" // default == image
     label: string
@@ -11,6 +13,7 @@ export interface UploadFileComponentProps {
     id?: string
     file?: File
     dimensioni: string
+    formik: FormikContextType<any>
 }
 
 export interface AssetFile {
@@ -36,23 +39,26 @@ export const UploadFileComponent = (props: UploadFileComponentProps) => {
     }, [props.file])
 
     const onSelectFile = (e: any) => {
+        props.formik.setFieldTouched('image', true)
 
         if (!e.target.files || e.target.files.length === 0) {
             setIsValid(false);
             setSelectedFile(undefined);
+            props.formik.setFieldValue("image", undefined)
             return
         }
         const file = e.target.files[0]
-        console.log({ file });
 
         const isValidExtension = filetypeIsAllowed(file?.type, props.previewType);
         if (!isValidExtension) {
             setIsValid(false);
             setSelectedFile(undefined);
+            props.formik.setFieldValue("image", undefined)
             return
         }
         const assetFile = { file, src: URL.createObjectURL(file) } as AssetFile
         setSelectedFile(assetFile);
+        props.formik.setFieldValue("image", assetFile?.file)
         props.callback(assetFile?.file);
         setIsValid(true);
         e.target.value = null;
@@ -111,6 +117,7 @@ export const UploadFileComponent = (props: UploadFileComponentProps) => {
                     onClick={() => {
                         setIsValid(true);
                         setSelectedFile(undefined)
+                        props.formik.setFieldValue("image", undefined)
                         props.callback(undefined);
                     }}>
                     {/* <i className="fas fa-trash fs-2"></i> */}
@@ -130,11 +137,16 @@ export const UploadFileComponent = (props: UploadFileComponentProps) => {
                     {showPreviewImage}
                 </div>
                 <input
+                    {...props.formik.getFieldProps("image")}
+                    name="image"
                     accept={props.fileType}
                     className="d-none"
                     id={inputId}
                     type="file"
                     onChange={onSelectFile}
+                    onBlur={() => props.formik.setFieldTouched('image', true)}
+                    value={undefined}
+
                 />
                 <div className="mt-2">
                     <label htmlFor={inputId} className="btn btn-primary" style={{ marginRight: "10px" }}>Choose file</label>

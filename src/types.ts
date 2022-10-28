@@ -12,3 +12,8 @@ export interface Metadata {
     external_url?:string;
     background_color?:string
 }
+
+export type PriceResponce = {
+    price:string;
+    formatPrice:string
+}

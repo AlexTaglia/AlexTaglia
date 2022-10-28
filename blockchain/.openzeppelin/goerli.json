@@ -1,0 +1,466 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xe4dCfa2899e1fCEd97124013Cc89Abc7cC833DD1",
+    "txHash": "0x4b40ee5ea976315498bf704896baf7be2a09f48c4e311f3625a0531c6d1e8521"
+  },
+  "proxies": [
+    {
+      "address": "0x0214Ed70Cb7b67Dc1Cd03F540cBF15ae3805e242",
+      "txHash": "0xb0713bc90deb58a79e864d8af7612f13df25b33abed9ab5fc5752975cfc12554",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xc82Bc1237c0FB197FF56129C75E6aE433B0518Bc",
+      "txHash": "0x813f7989d1c2649261b97dd028107622b499ef6082be524699fd24492d6656e6",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "980a22d5a8e8d079dd56b292cbdd4b14a2d997a3517637ddb1034181504e0e67": {
+      "address": "0x9a36092325fCB258616b3aF4365745195EC12DDd",
+      "txHash": "0x644212e9c952841ff4ed0eea3b9f6f58d6eeaa2d67bb87ad46a2e29ed7a1949d",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ERC165Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\introspection\\ERC165Upgradeable.sol:41"
+          },
+          {
+            "label": "_name",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_string_storage",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\ERC721Upgradeable.sol:25"
+          },
+          {
+            "label": "_symbol",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_string_storage",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\ERC721Upgradeable.sol:28"
+          },
+          {
+            "label": "_owners",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_mapping(t_uint256,t_address)",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\ERC721Upgradeable.sol:31"
+          },
+          {
+            "label": "_balances",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\ERC721Upgradeable.sol:34"
+          },
+          {
+            "label": "_tokenApprovals",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_mapping(t_uint256,t_address)",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\ERC721Upgradeable.sol:37"
+          },
+          {
+            "label": "_operatorApprovals",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_bool))",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\ERC721Upgradeable.sol:40"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "107",
+            "type": "t_array(t_uint256)44_storage",
+            "contract": "ERC721Upgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\ERC721Upgradeable.sol:465"
+          },
+          {
+            "label": "_ownedTokens",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_uint256))",
+            "contract": "ERC721EnumerableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\extensions\\ERC721EnumerableUpgradeable.sol:22"
+          },
+          {
+            "label": "_ownedTokensIndex",
+            "offset": 0,
+            "slot": "152",
+            "type": "t_mapping(t_uint256,t_uint256)",
+            "contract": "ERC721EnumerableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\extensions\\ERC721EnumerableUpgradeable.sol:25"
+          },
+          {
+            "label": "_allTokens",
+            "offset": 0,
+            "slot": "153",
+            "type": "t_array(t_uint256)dyn_storage",
+            "contract": "ERC721EnumerableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\extensions\\ERC721EnumerableUpgradeable.sol:28"
+          },
+          {
+            "label": "_allTokensIndex",
+            "offset": 0,
+            "slot": "154",
+            "type": "t_mapping(t_uint256,t_uint256)",
+            "contract": "ERC721EnumerableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\extensions\\ERC721EnumerableUpgradeable.sol:31"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_array(t_uint256)46_storage",
+            "contract": "ERC721EnumerableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\token\\ERC721\\extensions\\ERC721EnumerableUpgradeable.sol:175"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "201",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "202",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "_tokenIds",
+            "offset": 0,
+            "slot": "251",
+            "type": "t_struct(Counter)3615_storage",
+            "contract": "alexTagliaNfts_V0",
+            "src": "contracts\\MyNfts721.sol:26"
+          },
+          {
+            "label": "cost",
+            "offset": 0,
+            "slot": "252",
+            "type": "t_uint256",
+            "contract": "alexTagliaNfts_V0",
+            "src": "contracts\\MyNfts721.sol:28"
+          },
+          {
+            "label": "maxSupply",
+            "offset": 0,
+            "slot": "253",
+            "type": "t_uint256",
+            "contract": "alexTagliaNfts_V0",
+            "src": "contracts\\MyNfts721.sol:29"
+          },
+          {
+            "label": "maxMintAmount",
+            "offset": 0,
+            "slot": "254",
+            "type": "t_uint256",
+            "contract": "alexTagliaNfts_V0",
+            "src": "contracts\\MyNfts721.sol:30"
+          },
+          {
+            "label": "nftPerAddressLimit",
+            "offset": 0,
+            "slot": "255",
+            "type": "t_uint256",
+            "contract": "alexTagliaNfts_V0",
+            "src": "contracts\\MyNfts721.sol:31"
+          },
+          {
+            "label": "paused",
+            "offset": 0,
+            "slot": "256",
+            "type": "t_bool",
+            "contract": "alexTagliaNfts_V0",
+            "src": "contracts\\MyNfts721.sol:32"
+          },
+          {
+            "label": "onlyWhitelisted",
+            "offset": 1,
+            "slot": "256",
+            "type": "t_bool",
+            "contract": "alexTagliaNfts_V0",
+            "src": "contracts\\MyNfts721.sol:33"
+          },
+          {
+            "label": "whitelistedAddresses",
+            "offset": 0,
+            "slot": "257",
+            "type": "t_array(t_address)dyn_storage",
+            "contract": "alexTagliaNfts_V0",
+            "src": "contracts\\MyNfts721.sol:34"
+          },
+          {
+            "label": "addressMintedBalance",
+            "offset": 0,
+            "slot": "258",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "alexTagliaNfts_V0",
+            "src": "contracts\\MyNfts721.sol:35"
+          },
+          {
+            "label": "_tokenURIs",
+            "offset": 0,
+            "slot": "259",
+            "type": "t_mapping(t_uint256,t_string_storage)",
+            "contract": "alexTagliaNfts_V0",
+            "src": "contracts\\MyNfts721.sol:36"
+          },
+          {
+            "label": "creators",
+            "offset": 0,
+            "slot": "260",
+            "type": "t_mapping(t_uint256,t_address)",
+            "contract": "alexTagliaNfts_V0",
+            "src": "contracts\\MyNfts721.sol:37"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)44_storage": {
+            "label": "uint256[44]",
+            "numberOfBytes": "1408"
+          },
+          "t_array(t_uint256)46_storage": {
+            "label": "uint256[46]",
+            "numberOfBytes": "1472"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_bool))": {
+            "label": "mapping(address => mapping(address => bool))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_uint256,t_uint256))": {
+            "label": "mapping(address => mapping(uint256 => uint256))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_address)": {
+            "label": "mapping(uint256 => address)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_string_storage)": {
+            "label": "mapping(uint256 => string)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_uint256)": {
+            "label": "mapping(uint256 => uint256)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Counter)3615_storage": {
+            "label": "struct CountersUpgradeable.Counter",
+            "members": [
+              {
+                "label": "_value",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "43b479360401b9cc514aadaba84861da7a3675afa0f2008af16baecf5a60eaff": {
+      "address": "0x378633e4B80759aA7Df786807FE23693fa63baE4",
+      "txHash": "0x7af9fa091595e177cdd94be5c3a1527c725290e2083b686b1787db96ef3f886b",
+      "layout": {
+        "storage": [
+          {
+            "label": "userList",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_mapping(t_address,t_struct(user)8_storage)",
+            "contract": "Chat_V0",
+            "src": "contracts\\Chat.sol:28"
+          },
+          {
+            "label": "allMessages",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_mapping(t_bytes32,t_array(t_struct(message)20_storage)dyn_storage)",
+            "contract": "Chat_V0",
+            "src": "contracts\\Chat.sol:30"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(friend)13_storage)dyn_storage": {
+            "label": "struct Chat_V0.friend[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(message)20_storage)dyn_storage": {
+            "label": "struct Chat_V0.message[]",
+            "numberOfBytes": "32"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(user)8_storage)": {
+            "label": "mapping(address => struct Chat_V0.user)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_array(t_struct(message)20_storage)dyn_storage)": {
+            "label": "mapping(bytes32 => struct Chat_V0.message[])",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(friend)13_storage": {
+            "label": "struct Chat_V0.friend",
+            "members": [
+              {
+                "label": "pubkey",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "name",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_struct(message)20_storage": {
+            "label": "struct Chat_V0.message",
+            "members": [
+              {
+                "label": "sender",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "timestamp",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "msg",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_struct(user)8_storage": {
+            "label": "struct Chat_V0.user",
+            "members": [
+              {
+                "label": "name",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "friendList",
+                "type": "t_array(t_struct(friend)13_storage)dyn_storage",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    }
+  }
+}

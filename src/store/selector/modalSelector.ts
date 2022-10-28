@@ -9,7 +9,8 @@ export const storeModal = createSelector(sliceState, slice => ({
         modalIsOpen: slice.generalModal.modalIsOpen,
         type: slice.generalModal.type,
         title: slice.generalModal.title,
-        description: slice.generalModal.description
+        description: slice.generalModal.description,
+        isLoading: slice.generalModal.isLoading
     },
     walletModal: {
         connectIsOpen:slice.walletModal.connectIsOpen,

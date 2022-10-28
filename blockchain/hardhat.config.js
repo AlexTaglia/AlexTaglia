@@ -5,7 +5,7 @@ require('@openzeppelin/hardhat-upgrades');
 require('dotenv').config();
 
 
-const { API_URL_RINKEBY, API_URL_GOERLI, API_URL_MAINNET, PRIVATE_KEY, ETHERSCAN_API } = process.env;
+const { API_URL_GOERLI, API_URL_MAINNET, PRIVATE_KEY, ETHERSCAN_API } = process.env;
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -26,12 +26,8 @@ const { API_URL_RINKEBY, API_URL_GOERLI, API_URL_MAINNET, PRIVATE_KEY, ETHERSCAN
  */
 module.exports = {
   solidity: "0.8.16",
-  defaultNetwork: "rinkeby",
+  defaultNetwork: "goerli",
   networks: {
-    rinkeby: {
-      url: API_URL_RINKEBY,
-      accounts: [PRIVATE_KEY]
-    },
     goerli: {
       url: API_URL_GOERLI,
       accounts: [PRIVATE_KEY]
