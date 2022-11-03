@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { NumericFormat } from 'react-number-format';
 import * as Yup from 'yup'
+import { useMultisig } from "../../shared/hook/useMultisig";
 import { CreateTransfer } from "../../types";
 
 
@@ -12,16 +13,7 @@ interface iNewTransfer {
 
 export const NewTransfer = (p: iNewTransfer) => {
     const [transfer, setTransfer] = useState({})
-
-    const updateTransfer = (e: any, field: any) => {
-        const value = e.target.value;
-        setTransfer({ ...transfer, [field]: value })
-    }
-
-    // const submit = (e: any) => {
-    //     e.preventDefault()
-    //     p.createTransfer(transfer)
-    // }
+    const { createTransfer } = useMultisig()
 
     const transferSchema = Yup.object().shape({
         amount: Yup.string()
@@ -32,7 +24,7 @@ export const NewTransfer = (p: iNewTransfer) => {
 
 
     const [transferInit] = useState<CreateTransfer>({
-        amount: "",
+        amount: 0,
         to: ""
     })
 
@@ -41,6 +33,9 @@ export const NewTransfer = (p: iNewTransfer) => {
         validationSchema: transferSchema,
         onSubmit: async (values, { setSubmitting }) => {
             console.log({ values })
+            const created = await createTransfer(values.amount, values.to)
+            console.log({created});
+            
         },
     })
 
@@ -63,7 +58,7 @@ export const NewTransfer = (p: iNewTransfer) => {
                         allowLeadingZeros={false}
                         onValueChange={
                             // formik.handleChange
-                            val => { formik.setFieldValue("amount", val.value) }
+                            val => { formik.setFieldValue("amount", val.floatValue) }
                         }
                     />
                     {formik.errors.amount && formik.touched.amount && <div className='text-error' id="feedback">{formik.errors.amount}</div>}

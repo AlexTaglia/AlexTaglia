@@ -19,6 +19,6 @@ export type PriceResponce = {
 }
 
 export type CreateTransfer = {
-    amount:string;
+    amount:number;
     to:string
 }

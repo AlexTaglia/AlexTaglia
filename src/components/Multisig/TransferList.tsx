@@ -1,7 +1,8 @@
 import React from "react";
+import { Transfer } from "../../types/types";
 
 interface iTransferList {
-    transfers: any
+    transfers: Transfer[]
     approveTransfer: any
 }
 

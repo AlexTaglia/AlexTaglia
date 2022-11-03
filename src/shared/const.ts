@@ -2,6 +2,7 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 import abiChat from './abi/abiChat.json';
+import abiMultisig from './abi/abiMultisig.json';
 import abi from './abi/abi.json';
 import { toHex } from "../shared/utils/Formatters";
 // TO DO INSERIRE I LINK
@@ -15,6 +16,7 @@ export const metamaskLink = "https://metamask.app.link/dapp/alextaglia.netlify.a
 
 export const ABI = abi;
 export const ABI_chat = abiChat;
+export const ABI_multisig = abiMultisig;
 export const SUPPORTED_FORMATS =  ["image/jpg", "image/jpeg", "image/gif", "image/png"]
 export const MAX_FILE_SIZE:number = 103809024; //99MB
 

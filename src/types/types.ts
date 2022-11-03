@@ -1,4 +1,5 @@
 import { type } from "os"
+import { boolean, string } from "yup"
 
 export interface AssetFile {
   file: File
@@ -51,4 +52,12 @@ export type LoginResp = {
   username: string, 
   addr: string, 
   showConnectButto: string
+}
+
+export type Transfer = {
+  id: number,
+  amount: number,
+  to: string,
+  approvals: number,
+  sent: boolean
 }

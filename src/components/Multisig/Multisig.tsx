@@ -4,40 +4,61 @@ import { NewTransfer } from './NewTransfer';
 import { TransferList } from './TransferList';
 import { Header } from './Header';
 import { Container } from 'react-bootstrap';
+import { useWeb3React } from '@web3-react/core';
+import { useMultisig } from '../../shared/hook/useMultisig';
+import { Transfer } from '../../types/types';
 // import {Buffer} from 'buffer';
 // Buffer.from('anything','base64');
 
 export const Multisig = () => {
+  const { account } = useWeb3React()
+  const { getApprovers, getQuorum, getTransfers } = useMultisig()
 
   const [web3, setWeb3] = useState(undefined);
   const [accounts, setAccounts] = useState(undefined);
   const [wallet, setWallet] = useState(undefined);
 
-  const [approvers, setApprovers] = useState([]);
-  const [quorum, setQuorum] = useState([]);
+  const [approvers, setApprovers] = useState<string[]>();
+  const [quorum, setQuorum] = useState<number>();
 
-  const [transfers, setTransfers] = useState([])
+  const [transfers, setTransfers] = useState<Transfer[]>()
 
+
+  // useEffect(() => {
+  //   const init = async () => {
+  //     // const wallet = await getWallet(web3);
+  //     // const approvers = await wallet.methods.getApprovers().call();
+  //     // const quorum = await wallet.methods.quorum().call();
+  //     // const transfers = await wallet.methods.getTransfers().call()
+
+  //     setWeb3(web3);
+  //     setAccounts(accounts);
+  //     setWallet(wallet);
+  //     setTransfers(transfers);
+
+  //   }
+  //   init()
+  // }, [])
+
+  const init = async () => {
+    console.log("init")
+    try {
+      const approvers = await getApprovers()
+      const quorum = await getQuorum()
+      const transfers = await getTransfers()
+      setApprovers(approvers);
+      setQuorum(parseInt(quorum.toString()));
+      setTransfers(transfers)
+    } catch (error) {
+      console.error("init", { error })
+    }
+  }
 
   useEffect(() => {
-    const init = async () => {
-      // const web3 = await getWeb3();
-      // const accounts = await web3.eth.getAccounts();
-      // const wallet = await getWallet(web3);
-      // const approvers = await wallet.methods.getApprovers().call();
-      // const quorum = await wallet.methods.quorum().call();
-      // const transfers = await wallet.methods.getTransfers().call()
-
-      setWeb3(web3);
-      setAccounts(accounts);
-      setWallet(wallet);
-      setApprovers(approvers);
-      setQuorum(quorum);
-      setTransfers(transfers);
-
+    if (account) {
+      init()
     }
-    init()
-  }, [])
+  }, [account])
 
 
   const createTransfer = (transfer: any) => {
@@ -68,11 +89,11 @@ export const Multisig = () => {
         <div className='d-flex justify-content-center'>
           <h1 className=' mb-5 text-start d-flex flex-wrap'>Multisig wallet</h1>
         </div>
-        <Header approvers={approvers} quorum={quorum} />
+        <Header approvers={approvers ?? []} quorum={quorum} />
         <hr />
         <NewTransfer createTransfer={createTransfer} />
         <hr />
-        <TransferList transfers={transfers} approveTransfer={approveTransfer} />
+        <TransferList transfers={transfers ?? []} approveTransfer={approveTransfer} />
       </div>
     </Container>
   );

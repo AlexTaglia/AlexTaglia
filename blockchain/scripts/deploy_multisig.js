@@ -15,7 +15,7 @@ async function main() {
 
   // We get the contract to deploy
   const WALLET = await hre.ethers.getContractFactory("Wallet");
-  const wallet = await Greeter.deploy((WALLET, ["0xCd1B7F97D975Cfd5e4777f59f9BCC146d5D19dFE", "0xA968FACD9d9090addB515977579F53A45f3a792f", "0xdA200867a023EEdB08aAB17f0417AF950ac719E5"], 2));
+  const wallet = await WALLET.deploy(WALLET, ["0xCd1B7F97D975Cfd5e4777f59f9BCC146d5D19dFE", "0xA968FACD9d9090addB515977579F53A45f3a792f", "0xdA200867a023EEdB08aAB17f0417AF950ac719E5"], 2);
 
   await wallet.deployed();
 
