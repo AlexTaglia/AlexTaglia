@@ -3,7 +3,8 @@
   --yellowHover: #daff74 !important;
   --yellowActive: #d7ff67 !important;
   --light: #f8f9fa;
-  --gray-dark: #222 !important;
+  --gray-dark: #222121 !important;
+  --dark: #181818 !important;
   --primary: #1FDAD5 !important;
 
   --blue: #007bff;
@@ -158,6 +159,28 @@ svg:hover {
 .modal-header .btn-close {
   color: white !important;
 }
+
+.text-error{
+  color: red;
+  margin-top: 0px;
+  font-size: 0.88rem;
+}
+
+.info-text{
+  color: var(--white);
+  margin-top: 0px;
+  font-size: 0.88rem;
+}
+
+.bg-darkc{
+  background-color: var(--dark) !important;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0 !important;
+}
+
 
 /* .btn-primary {
   color: var(--dark) !important;

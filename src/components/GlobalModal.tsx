@@ -22,21 +22,21 @@ export const GlobalModal = (props: any) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {modal.generalModal.isLoading &&
+          {modal.generalModal?.isLoading &&
             <span
               className="spinner-border me-2"
               role="status"
               style={{ color: "var(--primary)", verticalAlign: "", width: "1.2rem", height: "1.2rem", borderWidth: "0.1rem" }}>
             </span>}
-          {modal.generalModal.title}
+          {modal.generalModal?.title}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="d-flex flex-column">
         <p>
-          {modal.generalModal.description}
+          {modal.generalModal?.description}
         </p>
 
-        {!modal.generalModal.isLoading &&
+        {!modal.generalModal?.isLoading &&
           <Button className="mb-2" variant="primary" onClick={() => {
             callSetResetModal()
           }}> OK</Button>

@@ -28,7 +28,7 @@ export const Message = (p: MessageProps) => {
   return (
     <div className={senderName === "You" ? "d-flex justify-content-end mb-2 message-container " : "d-flex justify-content-start mb-2 message-container"}>
       <div style={{ width: "auto", minWidth:"40%", maxWidth:"70%"}} 
-      className={senderName === "You" ? "bg-dark text-white rounded text-end p-2" : "bg-secondary text-white rounded text-start p-2"}>
+      className={senderName === "You" ? "bg-darkc text-white rounded text-end p-2" : "bg-secondary text-white rounded text-start p-2"}>
         <p className="date mb-0">{formatTimestamp(p.message.timestamp, false)}</p>
         <p className="text mb-1">{p.message.msg}</p>
       </div>

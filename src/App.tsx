@@ -26,6 +26,7 @@ import env from 'react-dotenv';
 import { PriceResponce } from './types';
 import { Chat } from './components/Chat/Chat';
 import { MintFormik } from './components/MintFormik';
+import { Multisig } from './components/Multisig/Multisig';
 
 const defaultValue = {
   price: "",
@@ -69,15 +70,17 @@ function App() {
       price: cost,
       priceHex: costHex
     }}>
-      <Container fluid className="App" style={{ overflowY: "auto", paddingRight: "0" }}>
+      <Container fluid className="App" style={{ overflowY: "auto"}}>
         <ParticlesCustom />
         <Router>
           <Navbarg />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/mycollection" element={<MyCollection />} />
-            <Route path="/mint" element={<MintFormik />} />
+            <Route path="/collected" element={<MyCollection collected={true} created={false} />} />
+            <Route path="/created" element={<MyCollection collected={false} created={true}/>} />
+            <Route path="/create" element={<MintFormik />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/multisig" element={<Multisig />} />
             {/* <Route path="teams" element={<Teams />}>
                 <Route path=":teamId" element={<Team />} />
                 <Route path="new" element={<NewTeamForm />} />

@@ -38,7 +38,7 @@ export const AddNewChat = (props: any) => {
     >
       <Button
         variant="primary"
-        className="mb-2 d-flex justify-content-center align-items-center "
+        className="d-flex justify-content-center align-items-center "
         style={{ height: "40px", width: "40px" }}
         onClick={handleShow}>
         <FontAwesomeIcon icon={faAdd} />

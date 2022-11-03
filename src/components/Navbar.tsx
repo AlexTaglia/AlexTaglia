@@ -19,7 +19,7 @@ export const Navbarg = () => {
     const { logout, ensToAddr, balance, ensName } = useChain()
 
     return (
-        <Navbar fixed="top" expand="lg" variant="dark" bg="dark">
+        <Navbar fixed="top" expand="lg" variant="dark" className='bg-darkc'>
             <Container className='justify-content-between'>
 
                 <Navbar.Brand><Link to="/"><FaHome size={22} /></Link></Navbar.Brand>
@@ -28,13 +28,17 @@ export const Navbarg = () => {
                     <Nav className=" my-2 my-lg-0 text-center">
                         <NavDropdown title="Blockchain" id="collasible-nav-dropdown">
                             <Link className='text-dark dropdown-item' to="/chat">Chat</Link>
-                            <Accordion>
+                            <Link className='text-dark dropdown-item' to="/create">Create</Link>
+                            <Link className='text-dark dropdown-item' to="/multisig">Multisig wallet</Link>
+
+                            {/* <Accordion>
                                 <Accordion.Header>NFT</Accordion.Header>
                                 <Accordion.Body>
-                                    <Link className='text-dark dropdown-item' to="/mint">Create</Link>
-                                    <Link className='text-dark dropdown-item' to="/mycollection">Crations</Link>
+                                    <Link className='text-dark dropdown-item' to="/create">Create</Link>
+                                    <Link className='text-dark dropdown-item' to="/created">Crations</Link>
+                                    <Link className='text-dark dropdown-item' to="/collected">Collected</Link>
                                 </Accordion.Body>
-                            </Accordion>
+                            </Accordion> */}
                         </NavDropdown>
 
                     </Nav>

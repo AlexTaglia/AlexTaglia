@@ -8,10 +8,6 @@ import { useWeb3React } from "@web3-react/core";
 export const ParticlesCustom = () => {
 
   const particlesInit = useCallback(async (engine: Engine) => {
-
-    // you can initialize the tsParticles instance (engine) here, adding custom shapes or presets
-    // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-    // starting from v2 you can add only the features you need reducing the bundle size
     await loadFull(engine);
   }, []);
 
@@ -30,7 +26,7 @@ export const ParticlesCustom = () => {
       options={{
         background: {
           color: {
-            value: "#383838",
+            value: "#222121",
           },
         },
         fpsLimit: 60,
@@ -47,7 +43,7 @@ export const ParticlesCustom = () => {
           links: {
             enable: true,
             value: account ? "#1FDAD5" : "#d3f5eb",
-            distance: isMobile ? 100 : 200
+            distance: isMobile ? 100 : 170
           },
           move: {
             enable: true,

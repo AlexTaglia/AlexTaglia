@@ -3,7 +3,7 @@ export interface Attribute {
     value: string;
 }
 
-export interface Metadata {
+export interface    Metadata {
     name?: string;
     description: string;
     image: string;
@@ -16,4 +16,9 @@ export interface Metadata {
 export type PriceResponce = {
     price:string;
     formatPrice:string
+}
+
+export type CreateTransfer = {
+    amount:string;
+    to:string
 }

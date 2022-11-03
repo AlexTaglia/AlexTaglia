@@ -46,6 +46,7 @@ export const useChat = () => {
 
 
     const hanlderMessage = (messageType: string, messageTitle: string, messageDescription: string, isLoading: boolean, disconnectWallet: boolean) => {
+        
         console.debug({ type: messageType, title: messageTitle, description: messageDescription, disconnectWallet: disconnectWallet })
         callSetConnectIsOpen(false)
         callSetModal({
@@ -72,7 +73,7 @@ export const useChat = () => {
         }
     }
 
-    const handleTnx = async (txn: any) => {
+    const   handleTnx = async (txn: any) => {
         txn.wait();
 
         hanlderMessage("info", "Waiting blockchain", "Wait for the operations on blockchain to complete.", true, false)
@@ -164,12 +165,10 @@ export const useChat = () => {
 
                     }).catch((error: any) => {
                         // console.error({ error })
-                        const errorMessage = error?.data?.message ?? error?.reason ?? error?.message;
-                        const isTooLowGas = error?.message?.toLowerCase().includes('transaction underpriced');
-                        const description = isTooLowGas ? 'Your gas fee are too low, set to high to ensure the transaction confirmation' : errorMessage
+
 
                         // callSetMintResponse(false);
-                        hanlderMessage("error", "Error", description, false, false)
+                        hanlderMessage("error", "Error", error, false, false)
                         return false
                     })
                 if (created) {
@@ -226,6 +225,14 @@ export const useChat = () => {
         console.log({ publicKey });
         console.log({ name });
 
+        const isAddress = ethers.utils.isAddress(publicKey)
+        console.log({isAddress});
+        
+        if(isAddress){
+            hanlderMessage("error", "Error", "Address not valid", false, false)
+            return frnd
+        }
+        
 
         try {
             let present = await contract.checkUserExists(publicKey);
@@ -256,13 +263,24 @@ export const useChat = () => {
                 } else {
                     return frnd
                 }
-            } catch (err) {
-                hanlderMessage("error", "Error", "Friend already added!", false, false)
+            } catch (error:any) {
+
+                const errorMessage = error?.data?.message ?? error?.reason ?? error?.message;
+                const isTooLowGas = error?.message?.toLowerCase().includes('transaction underpriced');
+                const description = isTooLowGas ? 'Your gas fee are too low, set to high to ensure the transaction confirmation' : errorMessage
+
+                console.log({error});
+                hanlderMessage("error", "Error", description, false, false)
                 return frnd
             }
-        } catch (err: any) {
-            console.log({ err });
-            hanlderMessage("error", "Error", err, false, false)
+        } catch (error: any) {
+
+            const errorMessage = error?.data?.message ?? error?.reason ?? error?.message;
+            const isTooLowGas = error?.message?.toLowerCase().includes('transaction underpriced');
+            const description = isTooLowGas ? 'Your gas fee are too low, set to high to ensure the transaction confirmation' : errorMessage
+
+            console.log({ error });
+            hanlderMessage("error", "Error", description, false, false)
             return frnd
 
         }

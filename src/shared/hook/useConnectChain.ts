@@ -216,7 +216,7 @@ export const useChain = () => {
 
         if (receipt.status === 1) {
             // console.log("receipt.status === 1")
-            hanlderMessage("info", "Minting Complete", "Congratulation!.", false, false)
+            hanlderMessage("info", "Minting Complete", "Congratulation!", false, false)
             return true
 
         } else {

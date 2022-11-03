@@ -10,9 +10,15 @@ import { useAlchemy } from '../shared/hook/useAlchemy';
 import Popup from 'reactjs-popup';
 import ContentLoader from 'react-content-loader';
 import { displayFormat } from '../shared/utils/Formatters';
+import { useLocation } from 'react-router-dom';
 
+interface MyCollectionProp {
+  created: boolean,
+  collected: boolean
+}
 
-export const MyCollection = () => {
+export const MyCollection = (p:MyCollectionProp) => {
+  const location = useLocation()
 
   const { account } = useWeb3React()
   const {
@@ -35,58 +41,40 @@ export const MyCollection = () => {
 
   useEffect(() => {
     if (account) {
-
-      console.log("1")
-      getNftsForOwner(account)
+      getNftsForOwner(account, p.collected, p.created)
     }
-  }, [account])
+  }, [account, location])
 
   useEffect(() => {
     {account && console.log("account", {account})}
-  }, [account])
+  }, [account, location])
 
   const next = () => {
     console.log("next");
     if (account) {
       console.log("2")
-
-      getNftsForOwner(account)
+      getNftsForOwner(account, p.collected, p.created)
     }
   }
 
   useEffect(() => {
         console.log("reset")
         setItems([])
-  }, [])
+  }, [location])
+
+  useEffect(() => {
+    console.log("reset")
+    setItems([])
+}, [])
 
   useEffect(() => {
     if (ownedNftsResponse?.ownedNfts) {
-      // if (items.length < ownedNftsResponse?.totalCount) {
         console.log({items})
         console.log({ownedNftsResponse})
-        
-        // let ownedNftsInit: OwnedNft[]
-
-        // if (items.length === 0) {
-        //   console.log("if");
-          
-        //   ownedNftsInit = []
-        // } else {
-        //   console.log("else");
-
-        //   ownedNftsInit = items
-        // }
-        
-        // const ownedNftsToAdd: OwnedNft[] = ownedNftsResponse?.ownedNfts
         const ownedNfts = [...items, ...ownedNftsResponse.ownedNfts]
-        
         console.log({ownedNfts})
-
-  
         setItems(ownedNfts)
       }
-
-    // }
   }, [ownedNftsResponse])
 
   const openDetail = (item: OwnedNft) => {
@@ -189,11 +177,11 @@ export const MyCollection = () => {
       <InfiniteScroll
         dataLength={items.length}
         next={() => next()}
-        height={650}
+        height={750}
         scrollThreshold={0.8}
         pullDownToRefreshThreshold={50}
         hasMore={items.length < ownedNftsResponse?.totalCount}
-        loader={<h4 style={{ color: "white" }}>Loading...</h4>}
+        loader={<h4 style={{ color: "white", position:"absolute", bottom:"10%", left:"45%" }}>Loading...</h4>}
         endMessage={
           <p style={{ textAlign: 'center' }}>
             <b style={{ color: "white" }}>Yay! You have seen it all</b>
@@ -249,14 +237,14 @@ export const MyCollection = () => {
         className='border-0'
 
       >
-        <Modal.Header closeButton className='bg-dark text-white border-0' closeVariant='white'>
+        <Modal.Header closeButton className='bg-darkc text-white border-0' closeVariant='white'>
           <Modal.Title id="contained-modal-title-vcenter "> {loadingGetContractMetadata ?
             <div className="spinner-border text-secondary" role="status"></div>
             :
             contractMetadataResponse?.name}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body className="row flex-wrap bg-dark ">
+        <Modal.Body className="row flex-wrap bg-darkc ">
           <div className='col-12 col-lg-6 '>
             {currentItem?.rawMetadata?.animation_url ?
               <video className={mediaLoaded ? "w-100 rounded" : "d-none"} onLoad={() => onLoad()} autoPlay loop src={currentItem?.rawMetadata?.animation_url?.replace("ipfs://", "https://ipfs.io/ipfs/")}></video> :
@@ -293,7 +281,7 @@ export const MyCollection = () => {
                   <Accordion.Body className=''>
                     <div className='d-flex justify-content-between'>
                       <div>Contract Address:</div>
-                      <a target={"_blank"} className='text-dark' href={`https://etherscan.io/address/${contractMetadataResponse?.address}`}>{contractMetadataResponse && displayFormat(contractMetadataResponse?.address)}</a>
+                      <a target={"_blank"} className='text-dark' href={`https://goerli.etherscan.io/address/${contractMetadataResponse?.address}`}>{contractMetadataResponse && displayFormat(contractMetadataResponse?.address)}</a>
                     </div>
 
                     <div className='d-flex justify-content-between'>

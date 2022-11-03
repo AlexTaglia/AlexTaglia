@@ -32,21 +32,37 @@ export const useAlchemy = () => {
 
 
     // Gets all NFTs currently owned by a given address.
-    const optionGetNftsForOwner = useMemo(() => {
+    const optionGetNftsForOwnerCreated = useMemo(() => {
         const option = {
             pageKey: ownedNftsResponse?.pageKey,
             pageSize: 10,
             contractAddresses: ["0x0214Ed70Cb7b67Dc1Cd03F540cBF15ae3805e242"] //Max limit 20 contracts.
         }
         return option
+    }, [ownedNftsResponse?.pageKey])
 
+    const optionGetNftsForOwnerCollected = useMemo(() => {
+        const option = {
+            pageKey: ownedNftsResponse?.pageKey,
+            pageSize: 10,
+            contractAddresses: [] 
+
+        }
+        return option
     }, [ownedNftsResponse?.pageKey])
 
     const getNftsForOwner = useCallback(
-        async (account: string) => {
+        async (account: string, collected:boolean, created:boolean) => {
             setLoadingGetNftsForOwner(true)
+
+            let option =  optionGetNftsForOwnerCreated
+
+            if(collected){
+                option = optionGetNftsForOwnerCollected
+            }
+
             await alchemy.nft
-                .getNftsForOwner(account, optionGetNftsForOwner)
+                .getNftsForOwner(account, option)
                 .then((res: OwnedNftsResponse) => {
                     setOwnedNftsResponse(res)
                     setLoadingGetNftsForOwner(false)
@@ -57,7 +73,7 @@ export const useAlchemy = () => {
                     console.error({ err })
                 });
         },
-        [optionGetNftsForOwner]
+        [optionGetNftsForOwnerCreated, optionGetNftsForOwnerCollected]
     )
 
     //Gets the metadata associated with a given NFT.

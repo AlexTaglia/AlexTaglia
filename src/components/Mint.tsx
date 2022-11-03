@@ -342,9 +342,6 @@ export const Mint = () => {
 
       {ipfs && (
         <>
-
-          
-
           <Form onSubmit={onSubmitHandler} >
             <div className='d-flex justify-content-center'>
               <div className='col-12 col-md-8 col-lg-6 p-2 text-start'>

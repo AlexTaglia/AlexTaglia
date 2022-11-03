@@ -194,19 +194,19 @@ export const Chat = () => {
             <Container style={{ zIndex: 2 }}>
                 <NavChat className="w-100" />
                 <div className="row h-100">
-                    <div className="col-4 h-100">
+                    <div className="col-4 h-100 mt-1">
                         <div className="d-flex flex-column bg-light justify-content-between" style={{ height: "60vh" }}>
                             <div className="flex-fill p-2">
                                 {showChat}
                             </div>
-                            <div>
+                            <div className="p-2 d-flex justify-content-end">
                                 <AddNewChat
                                 />
                             </div>
 
                         </div>
                     </div>
-                    <div className="col-8 h-100">
+                    <div className="col-8 h-100 ms-0 ps-0 mt-1">
                         <div className="d-flex flex-column bg-light justify-content-between" style={{ height: "60vh" }}>
                             <div className="w-100 text-start p-2">
                                 {activeChatMessages && activeChatMessages?.length > 0 && activeChat.name}
@@ -227,13 +227,13 @@ export const Chat = () => {
                                         <Form.Control
                                             required
                                             id="messageData"
-                                            className="mb-2"
+                                            className=""
                                             placeholder="Send Message"
                                         />
                                     </Col>
                                     <Col>
                                         <Button
-                                            className="mb-2 d-flex justify-content-center align-items-center"
+                                            className="d-flex justify-content-center align-items-center"
                                             style={{ float: "right", height:"40px", width:"40px" }}
                                             type="submit"
                                         >
@@ -248,53 +248,6 @@ export const Chat = () => {
                     </div>
                 </div>
 
-
-                {/* <Row>
-                    <Col style={{ backgroundColor: "var(--white)" }}>
-                        <Row className="flex-column align-content-between">
-                            <Col className="">Chat</Col>
-                            <Col className="">
-                                chat
-                            </Col>
-                            <Col className="">
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col xs={8}>
-                        <div style={{ backgroundColor: "#DCDCDC", height: "100%" }}>
-                            <Row style={{ marginRight: "0px" }}>
-                                <Card
-                                    style={{
-                                        width: "100%",
-                                        alignSelf: "center",
-                                        margin: "0 0 5px 15px",
-                                    }}
-                                >
-                                    <Card.Header>
-                                        {activeChat.friendname} : {activeChat.publicKey}
-                                        <Button
-                                            style={{ float: "right" }}
-                                            variant="warning"
-                                            onClick={() => {
-                                                if (activeChat && activeChat.publicKey)
-                                                    getMessage(activeChat.publicKey);
-                                            }}
-                                        >
-                                            Refresh
-                                        </Button>
-                                    </Card.Header>
-                                </Card>
-                            </Row>
-                            <div
-                                className="MessageBox"
-                                style={{ height: "400px", overflowY: "auto" }}
-                            >
-                                {Messages}
-                            </div>
-                            
-                        </div>
-                    </Col>
-                </Row> */}
             </Container>
         </ChatContext.Provider>
     );

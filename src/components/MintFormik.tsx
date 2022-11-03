@@ -96,73 +96,6 @@ export const MintFormik = () => {
     ipfs = undefined;
   }
 
-  const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-
-
-    // callSetModal({
-    //   modalIsOpen: true,
-    //   type: "info",
-    //   title: "Info",
-    //   description: "Cooming soon"
-    // })
-    // return
-
-
-    if (!selectedImageHome) {
-      callSetModal({
-        modalIsOpen: true,
-        type: "info",
-        title: "Info",
-        description: "Plase add image",
-        isLoading: false
-      })
-      return
-    }
-
-
-    const form = event.target as HTMLFormElement;
-    const chain = (form[0] as HTMLInputElement).value;
-    const name = (form[2] as HTMLInputElement).value;
-    const description = (form[3] as HTMLInputElement).value;
-    const externaLink = (form[4] as HTMLInputElement).value;
-    const contractType = (form[5] as HTMLInputElement).value;
-    const qTy = (form[6] as HTMLInputElement).value;
-    setSelectedChain(chain)
-
-    // console.log({ chain });
-    // console.log({ name });
-    // console.log({ description });
-    // console.log({ externaLink });
-    // console.log({ contractType });
-    // console.log({ qTy });
-    // console.log(selectedImageHome);
-    // console.log(inputList);
-    // console.log(propList);
-
-
-    // Carico il file su IPFS e creo i metadati
-    const metadata: Metadata = await uploadFileToIpfs(selectedImageHome, description, name, externaLink)
-    console.log(metadata)
-
-    // Carico i metadati su IPFS e mi ritorna l'has
-    const hash = await uploadMetadataToIpfs(metadata)
-    console.log(hash)
-
-    // "ipfs://QmbQcmhr8bsGNeBMtn2c6vwoYyDRBKFgsDJDemvgvdabjR"
-    // QmTNuSuNXaBhdopqvr6DnhbzBmFzJuN8hFizV2nn7gXKUB
-
-    //Con l'hash miinto il mio NFT
-    const minted = await mint(ctx.priceHex, 1, `ipfs://${hash}`)
-    console.log({ minted });
-
-    if (minted) {
-      setminted(true)
-      form.reset();
-    }
-  };
-
   useEffect(() => {
     if (minted) {
       setPropList([{ trait_type: "", value: "" }])
@@ -170,12 +103,7 @@ export const MintFormik = () => {
     }
   }, [minted])
 
-  useEffect(() => {
-    console.log(propList)
-    console.log(selectedImageHome)
-  }, [propList, selectedImageHome])
-
-  const uploadFileToIpfs = async (file: File, description: string, name: string, externaLink: string) => {
+  const uploadFileToIpfs = async (file: any, description: string, name: string, externaLink: string) => {
     let metadata: Metadata
 
     try {
@@ -273,15 +201,39 @@ export const MintFormik = () => {
     initialValues: metadata,
     validationSchema: metadataSchema,
     onSubmit: async (values, { setSubmitting }) => {
+      if(!account){
+        callSetConnectIsOpen(true)
+        return
+      }
       console.log("VALUES", { values });
       setSubmitting(true)
+
+      const image = values.image
+
+      const metadata: Metadata = await uploadFileToIpfs(image, values.description, values.name ?? "", values.external_url ?? "")
+      console.log(metadata)
+  
+      // Carico i metadati su IPFS e mi ritorna l'has
+      const hash = await uploadMetadataToIpfs(metadata)
+      console.log(hash)
+  
+      // "ipfs://QmbQcmhr8bsGNeBMtn2c6vwoYyDRBKFgsDJDemvgvdabjR"
+      // QmTNuSuNXaBhdopqvr6DnhbzBmFzJuN8hFizV2nn7gXKUB
+  
+      //Con l'hash miinto il mio NFT
+      const minted = await mint(ctx.priceHex, 1, `ipfs://${hash}`)
+      console.log({ minted });
+  
+      if (minted) {
+        setminted(true)
+        formik.resetForm()
+      }
     },
   })
 
-  useEffect(() => {
-    console.log(formik.errors.attributes);
-
-  }, [formik])
+  const getFormats = (formats:string[]) => {
+    return formats.map((format)=> format.replace("image/", " ."))
+  }
 
 
   return (
@@ -294,12 +246,16 @@ export const MintFormik = () => {
         <>
           <div className='d-flex justify-content-center'>
             <div className='col-12 col-md-8 col-lg-6 p-2 text-start'>
-              <h1 className='text-white mb-5 text-start d-flex'>Create your
-                <div className='ps-2 d-flex'>
-                  NFT
-                  <span style={{ fontSize: "10px", transform: "rotate(271deg)", marginLeft: "-2px", marginTop: "15px", color: "var(--primary)" }}>ERC721</span>
-                </div>
-              </h1>
+
+              <div className='d-flex justify-content-center w-100'>
+                <h1 className='text-white mb-5 text-start d-flex flex-wrap'>Create your
+                  <div className='ps-2 d-flex'>
+                    NFT
+                    <span style={{ fontSize: "10px", transform: "rotate(271deg)", marginLeft: "-2px", marginTop: "15px", color: "var(--primary)" }}>ERC721</span>
+                  </div>
+                </h1>
+              </div>
+
 
               <form onSubmit={formik.handleSubmit}>
 
@@ -314,7 +270,7 @@ export const MintFormik = () => {
                   value={formik.values.name}
                   name="name"
                 />
-                {formik.errors.name && formik.touched.name && <div className='text-danger' id="feedback">{formik.errors.name}</div>}
+                {formik.errors.name && formik.touched.name && <div className='text-error' id="feedback">{formik.errors.name}</div>}
 
                 {/* DESCRIPTION */}
                 <label className='text-white mt-3' htmlFor="description">Description<sup className='text-danger' style={{ fontSize: "16px" }}>*</sup></label>
@@ -327,7 +283,7 @@ export const MintFormik = () => {
                   value={formik.values.description}
                   name="description"
                 />
-                {formik.errors.description && formik.touched.description && <div id="feedback" className='text-danger'>{formik.errors.description}</div>}
+                {formik.errors.description && formik.touched.description && <div id="feedback" className='text-error'>{formik.errors.description}</div>}
 
                 {/* EXTERNAL LINK */}
                 <label className='text-white mt-3' htmlFor="external_url">External link</label>
@@ -342,7 +298,8 @@ export const MintFormik = () => {
                 />
 
                 {/* IMAGE */}
-                <label className='text-white mt-3' htmlFor="image">Image</label>
+                <label className='text-white mt-3' htmlFor="image">Image<sup className='text-danger' style={{ fontSize: "16px" }}>*</sup></label>
+                <div className='info-text'>Supported format: {getFormats(SUPPORTED_FORMATS)}</div>
                 <UploadFileComponent
                   formik={formik}
                   dimensioni="800x750px"
@@ -351,8 +308,9 @@ export const MintFormik = () => {
                   callback={setSelectedImageHome}
                   label=""
                 />
-                {formik.errors.image && formik.touched.image && <div id="feedback" className='text-danger'>{formik.errors.image}</div>}
+                {formik.errors.image && formik.touched.image && <div id="feedback" className='text-error'>{formik.errors.image}</div>}
 
+                <label className='text-white mt-3' htmlFor="attributes">Attributes<sup className='text-danger' style={{ fontSize: "16px" }}>*</sup></label>
                 <Accordion defaultActiveKey="0">
                   <Accordion.Item eventKey="0">
                     <Accordion.Header style={{ backgroundColor: "none" }} >Add properties</Accordion.Header>
@@ -421,28 +379,32 @@ export const MintFormik = () => {
                             )
                           })}
                         </tbody>
-                        {formik.errors.attributes && formik.touched.attributes && <div id="feedback" className='text-danger'>Attributes are required</div>}
                       </Table>
-
                       <Button
                         type='button'
                         onClick={() => { addNewProp() }}>
                         <FaPlus />
                       </Button>
+
                     </Accordion.Body>
                   </Accordion.Item>
+                  {formik.errors.attributes && formik.touched.attributes && <div id="feedback" className='text-error'>Attributes are required</div>}
                 </Accordion>
-                <Button
-                  disabled={
-                    formik.isSubmitting
-                    || !formik.isValid
-                    || !formik.touched
-                    || !formik.values.name
-                    || !formik.values.description
-                    || !formik.values.image
-                    || !formik.values.attributes
-                  }
-                  type="submit">Submit</Button>
+                <div className='d-flex justify-content-center w-100 mt-5'>
+                  <Button
+                    disabled={
+                      formik.isSubmitting
+                      || !formik.isValid
+                      || !formik.touched
+                      || !formik.values.name
+                      || !formik.values.description
+                      || !formik.values.image
+                      || !formik.values.attributes
+                    }
+                    type="submit">
+                    Submit
+                  </Button>
+                </div>
               </form >
               <div style={{ marginBottom: "100px" }}>
               </div>

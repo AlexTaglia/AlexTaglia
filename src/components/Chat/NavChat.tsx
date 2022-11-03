@@ -32,7 +32,7 @@ export const NavChat = (props: any) => {
   }, [account, ctx.userRegistered, ctx.username])
 
   return (
-    <Navbar className="ps-2 pe-2" bg="dark" variant="dark" style={{ marginTop: "100px" }}>
+    <Navbar className="ps-2 pe-2 bg-darkc" variant="dark" style={{ marginTop: "100px" }}>
       <Navbar.Brand href="#home"> WhatsEth </Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse className="justify-content-end">

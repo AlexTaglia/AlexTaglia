@@ -66,7 +66,7 @@ export const UploadFileComponent = (props: UploadFileComponentProps) => {
 
     const showPreviewImage = useMemo(() => {
 
-        const commonStyle = {width: "100%", height: "300px",objectFit: "contain",backgroundColor: "#F5F8FA"} as CSSProperties
+        const commonStyle = { width: "100%", height: "300px", objectFit: "contain", backgroundColor: "#F5F8FA" } as CSSProperties
         if (!selectedFile && isValid) {
             if (!!props?.url) {
                 if (props.previewType === "video") {
@@ -148,21 +148,28 @@ export const UploadFileComponent = (props: UploadFileComponentProps) => {
                     value={undefined}
 
                 />
-                <div className="mt-2">
-                    <label htmlFor={inputId} className="btn btn-primary" style={{ marginRight: "10px" }}>Choose file</label>
+                <div className="mt-2 d-flex">
+                    <label
+                        onBlur={() => props.formik.setFieldTouched('image', true)}
+                        htmlFor={inputId}
+                        className="btn btn-primary"
+                        style={{ marginRight: "10px" }}
+                    >Choose file</label>
                     {showDeleteFile}
+                    <div>
+                        <span style={{ fontSize: 14, fontWeight: 600, marginRight: 10 }} className='required mb-2'>{props.label}</span>
+                        <OverlayTrigger
+                            placement={"top"}
+                            overlay={
+                                <Tooltip>
+                                    You can upload: {props.fileType}. <br /> {props.dimensioni !== "" && `Dimension ${props.dimensioni}`}
+                                </Tooltip>
+                            }
+                        >
+                            <i style={{ lineHeight: "25px" }} className={`fa fa-solid fa-question text-gray-600 fs-5 p-0`}></i>
+                        </OverlayTrigger>
+                    </div>
                 </div>
-                <span style={{ fontSize: 14, fontWeight: 600, marginRight: 10 }} className='required mb-2'>{props.label}</span>
-                <OverlayTrigger
-                    placement={"top"}
-                    overlay={
-                        <Tooltip>
-                            You can upload: {props.fileType}. <br /> {props.dimensioni !== "" && `Dimensioni ${props.dimensioni}`}
-                        </Tooltip>
-                    }
-                >
-                    <i style={{ lineHeight: "25px" }} className={`fa fa-solid fa-question text-gray-600 fs-5 p-0`}></i>
-                </OverlayTrigger>
             </div>
         </>
 
